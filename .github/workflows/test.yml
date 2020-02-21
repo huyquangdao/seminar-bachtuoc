@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - users: actions/checkout@v2 #pull code tu repo ve may ao
+      - uses: actions/checkout@v2 #pull code tu repo ve may ao
       - name: Use Node.js
         users: actions/setup-node@v1
         with:
