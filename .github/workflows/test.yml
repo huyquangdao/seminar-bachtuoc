@@ -4,14 +4,20 @@ on:
     branches:
       - master
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2 # Pull code tu repo ve may ao
-      - name: Use Node.js # Cai node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: ls -la
+      - run: mkdir -p ~/.ssh
+      - run: echo "${{secrets.PRIVATE_KEY}}" > ~/.ssh/private_key
       - run: npm install
       - run: npm run build
+      - run: ls -la
+      - name: Send file to server
+        run:
+          rsync -azhv -e 'ssh -i ~/.ssh/private_key -o StrictHostKeyChecking=no'
+          build/*  --rsync-path='sudo rsync' $user@$server:$target
+        env:
+          user: root
+          server: 172.104.171.52
+          target: ~/hello-world
