@@ -21,4 +21,4 @@ jobs:
         env:
           user: root
           host: 172.104.171.52
-          target: ~/hello-world
+          target: /var/www/html
